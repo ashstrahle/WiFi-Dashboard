@@ -1,8 +1,0 @@
-#!/bin/bash
-
-source /usr/local/etc/kismet_sql.conf
-
-/usr/local/bin/kismet -s --daemonize >/dev/null 2>&1
-while true ; do
-	./kismet_sql.py --database $database >/dev/null 2>&1
-done
