@@ -5,5 +5,5 @@ A python & php project that shows a list of current WiFi devices that are in the
 ## Requirements
 
 - Kismet
-- SQLite
+- SQLite3
 - Python
