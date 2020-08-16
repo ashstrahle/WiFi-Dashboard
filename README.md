@@ -7,3 +7,6 @@ A python & php project that shows a list of current WiFi devices that are in the
 - Kismet
 - SQLite3
 - Python
+- PHP
+
+A monitor mode capable wifi adapter must be enabled for this project.
