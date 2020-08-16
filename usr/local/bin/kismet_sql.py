@@ -1,15 +1,5 @@
 #!/usr/bin/env python
 
-"""
-A complete basic utility using the python REST API and the KismetRest python
-library.
-
-Uses Kismet to monitor:
-    - A list of devices identified by MAC address (via --mac option)
-    - A list of devices identified by beaconed SSID (via --ssid option)
-    - A list of devices identified by probed SSID (via --probed option)
-"""
-
 import sys
 import KismetRest
 import argparse
@@ -17,12 +7,6 @@ import time
 import sqlite3
 import os
 
-# Per-device function called for each line in the ekjson.  Notice that we use the
-# field simplification system to reduce the number of devices we're looking at.
-
-# We use a global to keep track of the last timestamp devices were seen, so that
-# we can over-sample the timeframe in kismet but only print out devices which have
-# updated
 last_ts_cache = {}
 def per_device(d):
     key = d['kismet.device.base.key']
@@ -42,10 +26,6 @@ def per_device(d):
     # Gather SSID
     ssid = ""
 
-#    if 'dot11.device.last_beaconed_ssid' in d and not d['dot11.device.last_beaconed_ssid'] == "":
-#       ssid = d['dot11.device.last_beaconed_ssid']
-#    elif 'dot11.device.last_probed_ssid' in d and not d['dot11.device.last_probed_ssid'] == "":
-#        ssid = d['dot11.device.last_probed_ssid']
     ssid = d['dot11.device.last_bssid']
     if ssid != '': 
         cur.execute("select commonname, max(lasttime) from client where mac='{ssid}' group by mac" \
@@ -213,5 +193,3 @@ while True:
         kr.smart_device_list(callback = per_device, regex = regex, fields = fields, ts = -900)
 
     time.sleep(rate)
-
-
